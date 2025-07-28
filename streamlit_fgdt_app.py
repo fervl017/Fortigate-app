@@ -56,11 +56,15 @@ for feature, min_val in additional_filters.items():
 # MOSTRAR RESULTADOS
 st.subheader("Matching FortiGate Models")
 if not filtered_df.empty:
-   # Formatear con 2 decimales
+   # Formatear números
    filtered_df = filtered_df.applymap(lambda x: f"{x:.2f}" if isinstance(x, (float, int)) else x)
-   # Mostrar tabla con scroll
+   # Convertir índice (características) en columna para tener control sobre el ancho
+   df_final = filtered_df.reset_index().rename(columns={"index": "Feature"})
+   # Opcional: ampliar visualmente el ancho de la primera columna con padding
+   df_final["Feature"] = df_final["Feature"].apply(lambda x: f"{x:<40}")
+   # Mostrar con scroll y formato limpio
    st.dataframe(
-       filtered_df
+       df_final
    )
 else:
    st.warning("No hay modelos que cumplan con los criterios seleccionados.")
