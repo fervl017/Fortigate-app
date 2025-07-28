@@ -61,13 +61,7 @@ for feature, min_val in additional_filters.items():
 # 📋 MOSTRAR RESULTADOS
 # ---------------------------------------------
 st.subheader("Matching FortiGate Models")
-if not filtered_df.empty:
-   # Formatear los números a 2 decimales para legibilidad
-   filtered_df = filtered_df.applymap(lambda x: f"{x:.2f}" if isinstance(x, (float, int)) else x)
-   st.dataframe(
-       filtered_df,
-       use_container_width=True,
-       height=600
-   )
-else:
-   st.warning("No hay modelos que cumplan con los criterios seleccionados.")
+   if not filtered_df.empty:
+       st.dataframe(filtered_df)
+   else:
+       st.warning("No hay modelos que cumplan con el criterio.")
