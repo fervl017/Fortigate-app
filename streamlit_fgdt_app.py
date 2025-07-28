@@ -58,9 +58,11 @@ st.subheader("Matching FortiGate Models")
 if not filtered_df.empty:
    # Formatear números
    filtered_df = filtered_df.applymap(lambda x: f"{x:.2f}" if isinstance(x, (float, int)) else x)
-   # Convertir índice (características) en columna para tener control sobre el ancho
+   # Resetear índice pero sin añadir los números a la izquierda
    df_final = filtered_df.reset_index().rename(columns={"index": "Feature"})
-   # Opcional: ampliar visualmente el ancho de la primera columna con padding
+   # Quitar los números de la izquierda (índice por defecto)
+   df_final = df_final.reset_index(drop=True)
+   # Opcional: ancho de la primera columna (Feature)
    df_final["Feature"] = df_final["Feature"].apply(lambda x: f"{x:<40}")
    # Mostrar con scroll y formato limpio
    st.dataframe(
