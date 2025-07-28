@@ -9,7 +9,7 @@ features = df_raw.iloc[2:23, 1].tolist()
 feature_values = df_raw.iloc[2:23, 2:12]
 feature_values.columns = model_names
 feature_values.index = features
-df_models = feature_values.T
+df_models = feature_values
 df_models = df_models.apply(pd.to_numeric, errors="coerce")
 # Título
 st.title("FortiGate Model Selector")
