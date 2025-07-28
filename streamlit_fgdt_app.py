@@ -31,6 +31,6 @@ if pd.notna(df_models[selected_feature].min()) and pd.notna(df_models[selected_f
    # Mostrar resultados
    st.subheader("Matching FortiGate Models")
    if not filtered_df.empty:
-        st.table(filtered_df.reset_index().rename(columns={"index": "Feature"}))
+        st.table(filtered_df)
    else:
        st.warning("No hay modelos que cumplan con el criterio.")
