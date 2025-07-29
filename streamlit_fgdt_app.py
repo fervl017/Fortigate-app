@@ -35,7 +35,7 @@ additional_filters = {}
 optional_features = [
    "New Sessions/Sec",
    "Firewall Policies",
-   "Firewall Latency (µs)",
+   "Firewall Latency (micro segundos)",
    "Concurrent Sessions",
    "Max G/W to GIW IPSEC Tunnels",
    "Max Client to GIW IPSEC Tunnels"
