@@ -79,9 +79,12 @@ for feature, required_text in text_filters.items():
    filtered_df = filtered_df.loc[:, df_models_text.loc[feature].str.contains(required_text, case=False, na=False)]
 # Mostrar resultados
 if not filtered_df.empty:
+   # Unir filas de texto como Interfaces, etc.
+   extra_rows = df_models_text.loc[text_filters.keys(), filtered_df.columns]
+   final_combined = pd.concat([filtered_df, extra_rows], axis=0)
    # Formato bonito
-   filtered_df = filtered_df.applymap(lambda x: f"{x:.2f}" if isinstance(x, (float, int)) else x)
-   df_final = filtered_df.reset_index().rename(columns={"index": "Feature"}).set_index("Feature")
+   final_combined = final_combined.applymap(lambda x: f"{x:.2f}" if isinstance(x, (float, int)) else x)
+   df_final = final_combined.reset_index().rename(columns={"index": "Feature"}).set_index("Feature")
    st.dataframe(df_final, use_container_width=True, height=600)
 else:
    st.warning("No hay modelos que cumplan con los criterios seleccionados.")
