@@ -14,7 +14,7 @@ feature_values.index = features
 # Separar en numérico y texto
 df_all = feature_values.copy()
 df_models_num = df_all.apply(pd.to_numeric, errors="coerce")
-df_models_text = df_all[df_all.applymap(lambda x: isinstance(x, str))]
+df_models_text = df_all.where(df_models_num.isna())
 # Usaremos df_models_num como base
 df_models = df_models_num
 # TÍTULO
@@ -73,14 +73,14 @@ st.subheader("Modelos FortiGate compatibles", divider="blue")
 # Filtrado numérico
 filtered_df = df_models.loc[:, df_models.loc[selected_feature] >= selected_value]
 for feature, min_val in additional_filters.items():
-   filtered_df = filtered_df.loc[:, filtered_df.loc[feature] >= min_val]
+   filtered_df = filtered_df.loc[:, df_models.loc[feature] >= min_val]
 # Filtrado por texto
 for feature, required_text in text_filters.items():
    filtered_df = filtered_df.loc[:, df_models_text.loc[feature].str.contains(required_text, case=False, na=False)]
 # Mostrar resultados
 if not filtered_df.empty:
    # Unir filas de texto como Interfaces, etc.
-   extra_rows = df_models_text.loc[text_filters.keys(), filtered_df.columns]
+   extra_rows = df_models_text.loc[df_models_text.index.intersection(text_filters.keys()), filtered_df.columns]
    final_combined = pd.concat([filtered_df, extra_rows], axis=0)
    # Formato bonito
    final_combined = final_combined.applymap(lambda x: f"{x:.2f}" if isinstance(x, (float, int)) else x)
