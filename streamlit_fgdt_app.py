@@ -13,7 +13,7 @@ feature_values.columns = model_names
 feature_values.index = features
 df_models = feature_values.apply(pd.to_numeric, errors="coerce")
 # TÍTULO
-st.title("FortiGate Sizing Tool v1.0")
+st.title("FortiGate Model Selector")
 # SIDEBAR – FILTROS
 st.sidebar.header("Filtrado de Parámetros")
 # Filtro principal
@@ -36,7 +36,9 @@ optional_features = [
    "New Sessions/Sec",
    "Firewall Policies",
    "Firewall Latency (µs)",
-   "Concurrent Sessions"
+   "Concurrent Sessions",
+   "Max G/W to GIW IPSEC Tunnels",
+   "Max Client to GIW IPSEC Tunnels"
 ]
 for feature in optional_features:
    if feature in df_models.index:
