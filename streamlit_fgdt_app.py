@@ -61,9 +61,13 @@ text_filters = {}
 text_features = ["Interfaces", "Local Storage", "Power Supplies", "Form Factor", "Variants"]
 for feature in text_features:
    if feature in df_all.index:
-       opciones = df_all.loc[feature].dropna().unique().tolist()
-       seleccion = st.sidebar.selectbox(f"{feature}", [""] + sorted(opciones))
+       # Limpiar valores: quedarnos solo con lo que está antes del paréntesis
+       opciones_originales = df_all.loc[feature].dropna().unique().tolist()
+       opciones_limpias = [str(x).split(" (")[0] for x in opciones_originales]
+       opciones_limpias = sorted(set(opciones_limpias))
+       seleccion = st.sidebar.selectbox(f"{feature}", [""] + opciones_limpias)
        if seleccion != "":
+           # Filtro: que la celda contenga ese texto limpio (ignorando lo que hay entre paréntesis)
            text_filters[feature] = seleccion
 # Filtrar modelos por valores numéricos
 filtered_columns = df_models_num.columns
